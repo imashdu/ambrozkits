@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🏆 您已中獎！ 🏆</title>
+    <style>
+        /* 基礎佈局：強制核心內容為正方形 */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* 背景設定為深色，防止白色閃爍 */
+            background-color: #1a1a1a; 
+            font-family: "Microsoft JhengHei", "Heiti TC", sans-serif;
+            overflow: hidden; /* 防止滾動 */
+        }
+
+        /* 正方形容器 */
+        .square-container {
+            width: 90vw;
+            height: 90vw;
+            max-width: 500px; /* 限制最大尺寸，防止電腦版太大 */
+            max-height: 500px;
+            background-color: #0000ff; /* 復古藍 */
+            border: 10px solid #ffff00; /* 金屬黃邊框 */
+            box-shadow: 0 0 20px #ffff00;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+            position: relative;
+            
+            /* CSS 霓虹燈閃爍效果 (溫和版) */
+            animation: neonBorder 1.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes neonBorder {
+            from {
+                border-color: #ffff00;
+                box-shadow: 0 0 10px #ffff00;
+            }
+            to {
+                border-color: #ff00ff; /* 變成桃紅色 */
+                box-shadow: 0 0 20px #ff00ff;
+            }
+        }
+
+        /* 標題：復古霓虹燈字體 */
+        h1 {
+            color: #fff;
+            font-size: 28px;
+            margin: 0;
+            text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #ff00de, 0 0 20px #ff00de;
+            animation: textPulse 1s ease-in-out infinite alternate;
+        }
+
+        @keyframes textPulse {
+            from { opacity: 0.8; }
+            to { opacity: 1; transform: scale(1.05); }
+        }
+
+        /* 內容文字 */
+        .prize-text {
+            color: #00ff00; /* 螢光綠 */
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            background-color: black;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        /* 跑馬燈 (溫和版) */
+        .marquee-box {
+            width: 100%;
+            background: white;
+            color: red;
+            overflow: hidden;
+            white-space: nowrap;
+            font-weight: bold;
+        }
+
+        /* 蠢按鈕 */
+        #claimBtn {
+            font-size: 22px;
+            padding: 15px 30px;
+            background: linear-gradient(180deg, #ff0, #f90);
+            color: #fff;
+            text-shadow: 1px 1px 2px #000;
+            font-weight: bold;
+            cursor: pointer;
+            border: 4px outset #fff;
+            border-radius: 50px;
+            animation: btnShake 0.5s linear infinite;
+        }
+
+        @keyframes btnShake {
+            0% { transform: translate(0, 0); }
+            25% { transform: translate(2px, 1px); }
+            50% { transform: translate(0, 2px); }
+            75% { transform: translate(-2px, -1px); }
+            100% { transform: translate(0, 0); }
+        }
+
+        /* 免責聲明：看起來很正式 */
+        .footer-text {
+            color: #ccc;
+            font-size: 10px;
+            text-align: center;
+        }
+
+    </style>
+</head>
+<body onclick="startPrank()">
+
+    <div class="square-container">
+        <marquee class="marquee-box" scrollamount="10">恭喜你！系統偵測到你是最後一位幸運兒！ 恭喜你！系統偵測到你是最後一位幸運兒！</marquee>
+
+        <h1>🏆 特別中獎通知 🏆</h1>
+
+        <div class="prize-text">
+            您已獲得：福氣啦！辦公室摸魚專用<br>
+            iPhone 16 Pro Max (1TB) * 1 台
+        </div>
+
+        <div style="margin: 10px 0;">
+            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHJueW90eGZ6N2R6NXA0eGZ6N2R6NXA0eGZ6N2R6NXA0eGZ6JmVwPXYxX2ludGVybmFsX2dpZl9ieV9iZCZjdD1n/26tOZ42Mg6pbMubM4/giphy.gif" width="100">
+        </div>
+
+        <button id="claimBtn">立即點擊領取</button>
+
+        <p class="footer-text">© 2024 國際網路摸魚獎勵基金會。此中獎資訊有效期限至 2024/12/31。必須點擊領取方能生效。</p>
+    </div>
+
+    <script>
+        // LIFF 初始化（這部分可以不加，但加上可以確保 LIFF 環境加載）
+        // if (typeof liff !== 'undefined') {
+        //     liff.init({ liffId: "你的LIFF_ID" }).then(() => {
+        //         // 初始化成功
+        //     });
+        // }
+
+        // 點擊後開始無限彈窗
+        function startPrank() {
+            const messages = [
+                "警告：您的手機偵測到過度可愛的病毒！",
+                "確定要放棄這台 iPhone 嗎？",
+                "點擊確定以確認您的資訊！",
+                "真的要關掉嗎？（笑）",
+                "哈哈！又被釣魚了吧！",
+                "本活動由 PM 部門贊助（才怪）",
+                "再按一次就關掉了（騙你的）",
+                "你還在按嗎？"
+            ];
+
+            let count = 0;
+            
+            // 模擬無限彈窗
+            function popup() {
+                // 使用 confirm 增加互動陷阱
+                if (confirm(messages[count % messages.length])) {
+                    count++;
+                    popup();
+                } else {
+                    count++;
+                    popup();
+                }
+            }
+            
+            // 延遲一點點時間觸發，增加真實感
+            setTimeout(popup, 300);
+        }
+
+        // 防止使用者輕易離開（視瀏覽器支持程度）
+        window.onbeforeunload = function() {
+            return "你真的要離開中獎頁面嗎？";
+        };
+    </script>
+</body>
+</html>
