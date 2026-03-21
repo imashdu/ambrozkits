@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✨大吉大利！雲端媽祖線上點燈保平安✨</title>
+    <style>
+        /* 俗又有力的背景與字體 */
+        body {
+            background-color: #ff0000;
+            background-image: radial-gradient(#ffcc00 15%, transparent 16%), radial-gradient(#ffcc00 15%, transparent 16%);
+            background-size: 60px 60px;
+            color: #ffff00;
+            font-family: "Microsoft JhengHei", "微軟正黑體", sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(0, 0, 0, 0.8);
+            border: 10px double #ffcc00;
+            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* 閃爍動畫 */
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        .blink {
+            animation: blink 0.5s infinite;
+            font-size: 24px;
+            color: #00ff00;
+            font-weight: bold;
+        }
+
+        h1 {
+            font-size: 48px;
+            text-shadow: 3px 3px #ff0000;
+            margin-bottom: 10px;
+        }
+
+        .mazu-img {
+            width: 200px;
+            border-radius: 50%;
+            border: 5px solid #ffcc00;
+            margin: 20px 0;
+        }
+
+        .form-section {
+            background: #fff;
+            color: #000;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+
+        input {
+            width: 80%;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 18px;
+            border: 2px solid #ff0000;
+        }
+
+        /* 支付按鈕樣式 */
+        .pay-btn {
+            display: block;
+            width: 90%;
+            margin: 10px auto;
+            padding: 15px;
+            font-size: 20px;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .pay-btn:active { transform: scale(0.95); }
+
+        .apple-pay { background: #000; color: #fff; }
+        .google-pay { background: #4285F4; color: #fff; }
+        .line-pay { background: #00c300; color: #fff; }
+        .credit-pay { background: #ffcc00; color: #ff0000; }
+
+        marquee {
+            font-size: 20px;
+            background: #ffcc00;
+            color: #ff0000;
+            font-weight: bold;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <marquee>🎊 賀！本站榮獲天界 2026 年度優良點燈認證 🎊 誠心點燈，萬事亨通！身體健康！發大財！ 🎊</marquee>
+
+    <div class="container">
+        <h1>🕯️ 雲端光明燈 🕯️</h1>
+        <p class="blink">★ 只要 888，平安帶回家 ★</p>
+        
+        <div style="font-size: 80px;">🏮</div>
+        <p>您的功德金將直接迴向給您的銀行存款</p>
+
+        <div class="form-section">
+            <h3>請輸入功德主資訊</h3>
+            <input type="text" placeholder="姓名 (例：陳大財)" id="name">
+            <input type="number" placeholder="您的生辰八字 (農曆)" id="bday">
+            
+            <hr>
+            <h3>💳 功德支付寶卡號</h3>
+            <p style="font-size: 12px; color: gray;">(媽祖說：本欄位僅供模擬，絕對不會存檔，放心亂填)</p>
+            <input type="text" placeholder="1234-5678-9012-3456" id="card">
+            
+            <button class="pay-btn credit-pay" onclick="blessMe('信用卡')">信用卡結緣 (點我消業障)</button>
+            <button class="pay-btn apple-pay" onclick="blessMe('Apple Pay')"> Apple Pay 奉獻</button>
+            <button class="pay-btn google-pay" onclick="blessMe('Google Pay')">G Pay 佛心支付</button>
+            <button class="pay-btn line-pay" onclick="blessMe('LINE Pay')">LINE Pay 點燈</button>
+        </div>
+
+        <p style="margin-top: 20px;">🙏 瀏覽人數：999,999,888 人 🙏</p>
+    </div>
+
+    <script>
+        function blessMe(method) {
+            const name = document.getElementById('name').value || "無名氏";
+            const card = document.getElementById('card').value;
+
+            if(!card) {
+                alert("⚠ 施主，請輸入卡號方能感受神力！");
+                return;
+            }
+
+            alert(`✨ 【天界通知】 ✨\n\n感謝 ${name} 施主使用 ${method} 結緣！\n\n媽祖已經收到您的誠意了（雖然卡號是假的），\n現在您的螢幕已經被佛光加持，\n請立即關閉網頁並去喝一杯溫開水，\n保證您今天心情愉快，走路有風！`);
+            
+            console.log("偵測到幽默感注入：資料已自動丟進垃圾桶，這只是個玩笑！");
+        }
+    </script>
+</body>
+</html>
