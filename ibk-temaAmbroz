@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的連結整理</title>
+    <style>
+        h1 {
+            text-align: center;
+            display: none;
+        }
+        h2 {
+            color: #333;
+            padding-left: 20px;
+        }
+        .link-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            padding: 20px;
+        }
+        .link-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            text-decoration: none;
+        }
+        .link-item img {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 10px;
+        }
+        .link-item span {
+            color: #000000;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .link-item:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+<h2>線上辦公室</h2>
+    <div class="link-grid">
+        <a href="https://agent.yungshiu.com" target="_blank" class="link-item">
+            <img src="https://ascdc.nkust.edu.tw/var/file/22/1022/img/1117/236091434.png" alt="Link 1">
+            <span>永旭保經</span>
+        </a>
+        <a href="https://myapp.net.tw/app/yungshiu_line/onlineinsure.php" target="_blank" class="link-item">
+            <img src="https://cdn-icons-png.flaticon.com/128/1474/1474208.png" alt="Link 2">
+            <span>行動投保</span>
+        </a>
+        <a href="https://myapp.net.tw/app/yungshiu_line/get_submenu.php?masterid=1_10" target="_blank" class="link-item">
+            <img src="https://cdn-icons-png.flaticon.com/128/5439/5439276.png" alt="Link 6">
+            <span>永旭表單</span>
+        </a>
+        
+        <a href="https://myapp.net.tw/app/yungshiu_line/manage/pdf/7411_20240702165222.pdf" target="_blank" class="link-item">
+            <img src="https://cdn-icons-png.flaticon.com/128/1358/1358533.png" alt="Link 3">
+            <span>壽險分析</span>
+        </a>
+        <a href="https://myapp.net.tw/app/yungshiu_line/manage/pdf/7531_20240712150843.pdf" target="_blank" class="link-item">
+            <img src="https://cdn-icons-png.flaticon.com/128/1358/1358533.png" alt="Link 3">
+            <span>壽險風險</span>
+        </a>
+        <a href="https://myapp.net.tw/app/yungshiu_line/get_company.php?masterid=2&functionid=2" target="_blank" class="link-item">
+            <img src="https://cdn-icons-png.flaticon.com/128/4300/4300059.png" alt="Link 6">
+            <span>保險公司</span>
+        </a>
+        <a href="https://myapp.net.tw/app/yungshiu_line/manage/pdf/7410_20240702165139.pdf" target="_blank" class="link-item">
+            <img src="https://cdn-icons-png.flaticon.com/128/1358/1358533.png" alt="Link 3">
+            <span>產險分析</span>
+        </a>
+        <a href="https://myapp.net.tw/app/yungshiu_line/manage/pdf/7532_20240712150910.pdf" target="_blank" class="link-item">
+            <img src="https://cdn-icons-png.flaticon.com/128/1358/1358533.png" alt="Link 3">
+            <span>產險風險</span>
+        </a>
+      <a href="https://myapp.net.tw/app/yungshiu_line/get_submenu.php?masterid=6_11" target="_blank" class="link-item">
+            <img src="https://cdn-icons-png.flaticon.com/128/12645/12645243.png" alt="Link 3">
+            <span>快速試算</span>
+        </a>
+        <a href="https://myapp.net.tw/app/yungshiu_line/get_submenu.php?masterid=3_5" target="_blank" class="link-item">
+            <img src="https://cdn-icons-png.flaticon.com/128/2355/2355587.png" alt="Link 3">
+            <span>保單健診</span>
+        </a>
+        <a href="https://myapp.net.tw/app/yungshiu_line/get_submenu.php?masterid=4_7" target="_blank" class="link-item">
+            <img src="https://cdn-icons-png.flaticon.com/128/15468/15468458.png" alt="Link 3">
+            <span>主力商品</span>
+        </a>
+        <a href="https://myapp.net.tw/app/yungshiu_line/get_submenu.php?masterid=4_4" target="_blank" class="link-item">
+            <img src="https://cdn-icons-png.flaticon.com/128/6009/6009864.png" alt="Link 3">
+            <span>客戶表</span>
+        </a>
+        
+        
+       
+    </div>
+    
+    <h2>客戶快速服務連結</h2>
+    <div class="link-grid">
+        <a href="https://line.me/R/share?text=%E3%80%90%E5%9C%8B%E6%B3%B0%E7%94%A2%E9%9A%AA%E7%B9%B3%E8%B2%BB%E9%80%9A%E7%9F%A5%E3%80%91%0A%E6%82%A8%E7%9A%84%E6%B1%BD%2F%E6%A9%9F%E8%BB%8A%E5%B7%B2%E5%AE%8C%E6%88%90%E6%8A%95%E4%BF%9D%2F%E7%BA%8C%E4%BF%9D%E6%89%8B%E7%BA%8C%EF%BC%8C%E4%BE%9D%E7%85%A7%E4%B8%8B%E5%88%97%E9%A0%86%E5%BA%8F%E5%AE%8C%E6%88%90%E7%B9%B3%E8%B2%BB%EF%BC%9A%0A%0A1%EF%B8%8F%E2%83%A3%20%E8%AB%8B%E9%BB%9E%E9%81%B8%E5%AE%98%E6%96%B9%E9%80%A3%E7%B5%90%0A2%EF%B8%8F%E2%83%A3%20%E8%BC%B8%E5%85%A5%E5%9F%BA%E6%9C%AC%E8%B3%87%E6%96%99%0A3%EF%B8%8F%E2%83%A3%20%E9%81%B8%E6%93%87%E9%81%A9%E5%90%88%E6%82%A8%E7%9A%84%E6%96%B9%E5%BC%8F%0A%E2%9C%85%20%E5%AE%8C%E6%88%90%E7%B9%B3%E8%B2%BB%0A%0A%E2%9A%A0%EF%B8%8F%20%E5%8B%99%E5%BF%85%E6%8B%8D%E7%85%A7%2F%E6%88%AA%E5%9C%96%E7%B9%B3%E8%B2%BB%E6%88%90%E5%8A%9F%E7%95%AB%E9%9D%A2!%20!%0A%0Ahttps%3A%2F%2Fsmartpay.cathay-ins.com.tw%2FenterPaymentInfo" target="_blank" class="link-item">
+            <img src="https://3i-life.com.tw/resources/pic/保險公司logo/國泰人壽.png" alt="Link 6">
+            <span>國泰產物</span><span>繳費連結</span>
+        </a>
+        <a href="https://sciebs.south-china.com.tw/SCAPI/ScEasyPay/QueryPay/Index1" target="_blank" class="link-item">
+            <img src="https://play-lh.googleusercontent.com/SZxIWEkA7bfUJrgtngJA2VW8ohEas_d0yP9I97khDrDMGNvBuqORgLmFjVLxbnDbsRY" alt="Link 6">
+            <span>華南產物</span><span>繳費連結</span>
+        </a>
+    </div>
+    
+   <h2>保險公司後台系統</h2>
+    <div class="link-grid">
+        <a href="https://proposal.taiwanlife.com/login?" target="_blank" class="link-item">
+            <img src="https://3i-life.com.tw/resources/images/insurelogos/台灣人壽.png" alt="Link 4">
+            <span>台灣人壽</span>
+        </a>
+        <a href="https://esfp.chubblife-vul.com.tw/illustration/login?openExternalBrowser=1" target="_blank" class="link-item">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5JzmVzFA0fdqfFU6bJ5VH6P1whWysQKVXIQ&s" alt="Link 5">
+            <span>安達人壽</span>
+        </a>
+        
+        <a href="https://tpeb2b.chubb.com.tw" target="_blank" class="link-item">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhG5m5yQYt4mqF5YkPfNjp_8q2FrTX_HlHOQ&s" alt="Link 6">
+            <span>安達旅平</span>
+        </a>
+        <a href="https://b2b.cathay-ins.com.tw/INSBAWeb/html/CM/loginb2b.jsp" target="_blank" class="link-item">
+            <img src="https://3i-life.com.tw/resources/pic/保險公司logo/國泰人壽.png" alt="Link 6">
+            <span>國泰產物</span>
+        </a>
+        <a href="https://dp.tfmi.com.tw/DigitalPortal/Account/Login" target="_blank" class="link-item">
+            <img src="https://play-lh.googleusercontent.com/kGXzpYHeux5MWErYws_kdLYHJg1GvVpSgWW5KyWxois-Bj8rA7REdGo6hJCV05WMHes" alt="Link 6">
+            <span>台灣產物</span>
+        </a>
+    </div>
+    
+    <h2>投資市場分析工具</h2>
+   
+    <div class="link-grid">
+        <a href="https://www.google.com/url?q=https%3A%2F%2Fchubb.moneydj.com%2Fw%2Fwf%2Fwf09b.djhtm&amp;sa=D&amp;sntz=1&amp;usg=AOvVaw12pmDNqsWOo2IE4M9qDn07" target="_blank" class="link-item">
+            <img src="https://cdn-icons-png.flaticon.com/512/8451/8451399.png" alt="Link 6">
+            <span>國內股票</span>
+        </a>
+        <a href="https://www.google.com/url?q=https%3A%2F%2Fchubb.moneydj.com%2Fw%2Fwf%2Fwf09c.djhtm&amp;sa=D&amp;sntz=1&amp;usg=AOvVaw2Ezy9Cl615W1r06r2VUJba" target="_blank" class="link-item">
+            <img src="https://cdn-icons-png.flaticon.com/512/8451/8451399.png" alt="Link 6">
+            <span>國內債券</span>
+        </a>
+        <a href="https://index.ndc.gov.tw/n/zh_tw#/" target="_blank" class="link-item">
+            <img src="https://index.ndc.gov.tw/n/include/images/logo.jpg" alt="Link 4">
+            <span>台灣景氣</span>
+        </a>
+        <a href="https://www.google.com/url?q=https%3A%2F%2Fchubb.moneydj.com%2Fw%2Fwf%2Fwf09a.djhtm&amp;sa=D&amp;sntz=1&amp;usg=AOvVaw0-uMTwQKRHtIuUeYg4eFRK" target="_blank" class="link-item">
+            <img src="https://cdn-icons-png.flaticon.com/512/921/921490.png" alt="Link 6">
+            <span>海外股票</span>
+        </a>
+        <a href="https://www.google.com/url?q=https%3A%2F%2Fchubb.moneydj.com%2Fw%2Fwf%2Fwf09d.djhtm&amp;sa=D&amp;sntz=1&amp;usg=AOvVaw2_EdqoxddS1tqFTIErT1-d" target="_blank" class="link-item">
+            <img src="https://cdn-icons-png.flaticon.com/512/921/921490.png" alt="Link 6">
+            <span>海外債券</span>
+        </a>
+        <a href="https://www.moneydj.com/iQuote/iquote.djhtm" target="_blank" class="link-item">
+            <img src="https://cdn-icons-png.flaticon.com/128/3828/3828258.png" alt="Link 5">
+            <span>全球行情</span>
+        </a>
+        <a href="https://tw.tradingview.com/markets/#crypto" target="_blank" class="link-item">
+            <img src="https://cdn-icons-png.flaticon.com/128/4964/4964789.png" alt="Link 5">
+            <span>加密貨幣</span>
+        </a>
+        
+    </div>    
+    
+    <h2>說明書</h2>
+    <div class="link-grid">
+        <a href="https://myapp.net.tw/app/yungshiu_line/manage/pdf/6394_20240905094442.pdf" target="_blank" class="link-item">
+            <img src="https://cdn-icons-png.flaticon.com/128/1962/1962578.png" alt="Link 4">
+            <span>壽險報件</span>
+        </a>
+        <a href="https://myapp.net.tw/app/yungshiu_line/manage/pdf/6396_20240905095017.pdf" target="_blank" class="link-item">
+            <img src="https://cdn-icons-png.flaticon.com/128/1743/1743600.png" alt="Link 5">
+            <span>產險報件</span>
+        </a>
+        <a href="https://myapp.net.tw/app/yungshiu_line/manage/pdf/6397_20230407173450.pdf" target="_blank" class="link-item">
+            <img src="https://cdn-icons-png.flaticon.com/128/4961/4961759.png" alt="Link 6">
+            <span>保全作業</span>
+        </a>
+        <a href="https://myapp.net.tw/app/yungshiu_line/manage/pdf/8489_永旭夥伴資訊作業提醒.pdf" target="_blank" class="link-item">
+            <img src="https://cdn-icons-png.flaticon.com/128/4961/4961759.png" alt="Link 6">
+            <span>資訊作業</span><span>提醒事項</span>
+        </a>
+        <a href="https://apps.apple.com/us/app/飛鼠推播/id6741556369?openExternalBrowser=1" target="_blank" class="link-item">
+            <img src="https://cdn-icons-png.flaticon.com/128/0/747.png" alt="Link 6">
+            <span>推播系統</span><span>iOS</span>
+        </a>
+<a href="https://play.google.com/store/apps/details?id=com.ice.notification&pli=1&openExternalBrowser=1" target="_blank" class="link-item">
+            <img src="https://cdn-icons-png.flaticon.com/128/888/888839.png" alt="Link 6">
+            <span>推播系統</span><span>Android</span>
+        </a>
+    </div>
+    
+
+</body>
+</html>
