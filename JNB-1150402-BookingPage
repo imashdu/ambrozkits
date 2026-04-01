@@ -1,3 +1,6 @@
+<!DOCTYPE html>
+<html lang="zh">
+<body>
 <div id="event-list-root" class="ev-scoped-wrapper">
     <style>
         /* 基礎樣式 */
@@ -253,3 +256,5 @@
     fetchData();
     </script>
 </div>
+</body>
+</html>
