@@ -1,0 +1,255 @@
+<div id="event-list-root" class="ev-scoped-wrapper">
+    <style>
+        /* 基礎樣式 */
+        .ev-scoped-wrapper {
+            max-width: 600px; margin: 30px auto; padding: 0 18px;
+            font-family: 'Noto Sans TC', system-ui, -apple-system, sans-serif;
+            color: #1d1d1f; clear: both;
+        }
+
+        .ev-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+        .ev-header h2 { font-size: 26px !important; font-weight: 700 !important; margin: 0 !important; border:none !important;}
+        .ev-badge { background: #f5f5f7; color: #86868b; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; }
+
+        .ev-list-card {
+            background: #ffffff; border-radius: 20px; padding: 18px; margin-bottom: 16px;
+            display: flex; gap: 18px; border: 1px solid rgba(0,0,0,0.06);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer;
+        }
+        .ev-list-card:hover { transform: translateY(-4px); box-shadow: 0 15px 30px rgba(0,0,0,0.08); }
+        .ev-img-thumb { width: 90px; aspect-ratio: 1/1.414; border-radius: 12px; object-fit: cover; flex-shrink: 0; }
+        .ev-card-info { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: center; }
+
+        .ev-tag {
+            display: inline-block; padding: 3px 10px; border-radius: 8px; font-size: 10px;
+            font-weight: 800; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            letter-spacing: 0.5px; text-transform: uppercase;
+        }
+        
+        .ev-date { font-size: 12px; color: #86868b; font-weight: 600; margin-left: 6px; }
+        .ev-card-title { font-size: 18px; font-weight: 700; color: #1d1d1f; margin: 8px 0 6px 0 !important; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .ev-card-desc { font-size: 13px; color: #86868b; line-height: 1.5; margin: 0 !important; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+        /* 彈窗 UI */
+        .ev-modal-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.4);
+            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            display: none; align-items: center; justify-content: center; z-index: 10000; padding: 20px;
+        }
+        .ev-modal-overlay.active { display: flex; }
+        
+        .ev-modal-window {
+            background: #fff; width: 100%; max-width: 420px; max-height: 85vh;
+            border-radius: 28px; overflow-y: auto; position: relative;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+        }
+        .ev-modal-window::-webkit-scrollbar { display: none; }
+
+        .ev-close-btn {
+            position: sticky; top: 15px; left: calc(100% - 49px);
+            width: 34px; height: 34px; border-radius: 50%; 
+            background: rgba(255, 255, 255, 0.4); 
+            backdrop-filter: blur(12px) saturate(180%);
+            -webkit-backdrop-filter: blur(12px) saturate(180%);
+            color: #000; display: flex; align-items: center; justify-content: center; 
+            border: 1px solid rgba(255, 255, 255, 0.3); 
+            cursor: pointer; z-index: 100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+            transition: all 0.3s;
+            margin-bottom: -34px; 
+        }
+        .ev-close-btn:hover { background: rgba(255, 255, 255, 0.6); transform: rotate(90deg); }
+
+        .ev-modal-content { padding: 28px; }
+        .ev-modal-title { font-size: 22px; font-weight: 700; color: #1d1d1f; margin-bottom: 15px; }
+        .ev-modal-meta { font-size: 14px; color: #1d1d1f; font-weight: 600; margin-bottom: 6px; }
+        .ev-modal-meta span { font-weight: 400; color: #48484a; }
+        .ev-link { color: #0071e3 !important; text-decoration: underline !important; font-weight: 500; }
+
+        .ev-form-box { background: #f5f5f7; padding: 24px; border-radius: 20px; margin-top: 25px; }
+        .ev-input {
+            width: 100%; padding: 12px 14px; margin-bottom: 12px;
+            border: 1px solid #d2d2d7; border-radius: 12px; font-size: 14px;
+            box-sizing: border-box; background: #fff; outline-color: #0071e3;
+        }
+
+        .ev-submit-btn {
+            --x: 50%; --y: 50%; width: 100%; padding: 18px; border: none; border-radius: 18px; 
+            color: #fff; font-weight: 900; font-size: 17px; cursor: pointer; position: relative; overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: #000;
+        }
+        .ev-btn-bg { position: absolute; inset: 0; background: var(--vibrant-grad); z-index: 1; transition: filter 0.3s; }
+        .ev-submit-btn::before {
+            content: ""; position: absolute; inset: -50px;
+            background: radial-gradient(circle 100px at var(--x) var(--y), rgba(255, 255, 255, 0.6), transparent 70%);
+            z-index: 2; opacity: 0; transition: opacity 0.4s;
+        }
+        .ev-submit-btn:hover::before { opacity: 1; }
+        .ev-submit-btn:hover { transform: translateY(-3px) scale(1.02); }
+        .ev-btn-text { position: relative; z-index: 3; letter-spacing: 2px; text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+    </style>
+
+    <div class="ev-header">
+        <h2>禪奈普市精選活動</h2>
+        <span id="event-count" class="ev-badge">載入中...</span>
+    </div>
+
+    <div id="list-view"></div>
+
+    <div id="infoModal" class="ev-modal-overlay" onclick="if(event.target==this) closeModal()">
+        <div class="ev-modal-window">
+            <button onclick="closeModal()" class="ev-close-btn">✕</button>
+            <div id="modal-content-view">
+                <img id="m-img" src="" style="width:100%; aspect-ratio:1/1.414; object-fit:cover;">
+                <div class="ev-modal-content">
+                    <div id="m-tag-container" style="margin-bottom:12px;"></div>
+                    <h3 id="m-title" class="ev-modal-title"></h3>
+                    <div class="ev-modal-meta">時間：<span id="m-time-text"></span></div>
+                    <div id="m-addr-box" class="ev-modal-meta">地點：<a id="m-address-link" href="" target="_blank" style="color: #0071e3; text-decoration: none; font-weight:400;"></a></div>
+                    <p id="m-desc" style="font-size:15px; color:#48484a; line-height:1.6; white-space:pre-line; margin: 24px 0; border-top: 1px solid #f2f2f7; padding-top:20px;"></p>
+
+                    <div class="ev-form-box">
+                        <div style="font-weight:700; margin-bottom:16px; font-size:16px;">完整報名資訊</div>
+                        <form id="g-form" action="https://docs.google.com/forms/d/e/1FAIpQLSdZ_ZTT561qjmdfCttTwjzKe6xzvIs2aDVGb3UbYXTpMBlMkQ/formResponse" method="POST" target="hidden_iframe_list" onsubmit="submitted=true">
+                            <input type="hidden" name="entry.342141863" id="entry-session">
+                            
+                            <input type="text" name="entry.684835463" placeholder="姓名" required class="ev-input">
+                            <input type="email" name="entry.1581886118" placeholder="Email" required class="ev-input">
+                            <input type="tel" name="entry.2143250881" placeholder="手機號碼" required class="ev-input">
+                            <input type="text" name="entry.1941900753" placeholder="引薦人" class="ev-input">
+                            <textarea name="entry.281637438" placeholder="備註（想說的話）" rows="3" class="ev-input" style="height:auto;"></textarea>
+                            
+                            <button type="submit" id="ev-main-btn" class="ev-submit-btn">
+                                <div class="ev-btn-bg" id="ev-btn-bg"></div>
+                                <span class="ev-btn-text">立即報名參與</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div id="success-view" style="display:none; text-align:center; padding:60px 20px;">
+                <div style="font-size:50px; margin-bottom:16px;">✅</div>
+                <h3 style="font-size:22px; margin-bottom:12px;">報名成功</h3>
+                <button onclick="closeModal()" style="color:#0071e3; background:none; border:none; font-weight:700; cursor:pointer;">返回列表</button>
+            </div>
+        </div>
+    </div>
+
+    <iframe name="hidden_iframe_list" id="hidden_iframe_list" style="display:none;" onload="if(typeof submitted !== 'undefined' && submitted){showSuccess();}"></iframe>
+
+    <script>
+    var submitted = false;
+    // 💡 網址已改為 output=tsv
+    const TSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS5d534cAg4XNOPBsCcxJXIOZkxMIaj1eOVpCqPzig8YElS17savkXKnfL_TKqZ0SPUO4Q7FiclstsW/pub?gid=1584858931&single=true&output=tsv';
+
+    function showSuccess() {
+        document.getElementById('modal-content-view').style.display = 'none';
+        document.getElementById('success-view').style.display = 'block';
+    }
+
+    function getVibrantNeon(hex) {
+        if(!hex) hex = "#0071e3";
+        const r = parseInt(hex.slice(1,3), 16), g = parseInt(hex.slice(3,5), 16), b = parseInt(hex.slice(5,7), 16);
+        const c1 = `rgb(${Math.min(255, r+100)}, ${g}, ${Math.min(255, b+50)})`;
+        const c3 = `rgb(${r}, ${Math.min(255, g+80)}, ${Math.min(255, b+150)})`;
+        return `linear-gradient(45deg, ${c1} 0%, ${hex} 45%, ${c3} 100%)`;
+    }
+
+    // 🧠 TSV 專用解析函數 (已修復欄位對應)
+    function parseTSV(str) {
+        const lines = str.split(/\r?\n/);
+        if (lines.length <= 1) return [];
+        
+        return lines.slice(1).map(line => {
+            const r = line.split('\t');
+            return {
+                start: r[0]?.trim() || '', 
+                title: r[1]?.trim() || '',
+                time: r[2]?.trim() || '', 
+                desc: r[3]?.trim() || '',
+                img: r[4]?.trim() || '', 
+                tag: r[6]?.trim() || 'EVENT',
+                color: r[7]?.trim() || '#0071e3', 
+                addr: r[8]?.trim() || ''
+            };
+        }).filter(x => x.start);
+    }
+
+    async function fetchData() {
+        try {
+            const r = await fetch(TSV_URL + '&cb=' + Date.now());
+            const t = await r.text();
+            const data = parseTSV(t);
+            renderList(data);
+        } catch (e) { console.error(e); }
+    }
+
+    function renderList(data) {
+        const lv = document.getElementById('list-view');
+        document.getElementById('event-count').innerText = data.length + ' Events';
+        lv.innerHTML = '';
+        data.forEach(x => {
+            const el = document.createElement('div');
+            el.className = "ev-list-card";
+            el.onclick = () => openPop(x);
+            const neon = getVibrantNeon(x.color);
+            el.innerHTML = `
+                <img src="${x.img}" class="ev-img-thumb" loading="lazy">
+                <div class="ev-card-info">
+                    <div class="ev-meta-row">
+                        <span class="ev-tag" style="background: ${neon}">${x.tag}</span>
+                        <span class="ev-date">${x.start}</span>
+                    </div>
+                    <h4 class="ev-card-title">${x.title}</h4>
+                    <p class="ev-card-desc">${x.desc}</p>
+                </div>`;
+            lv.appendChild(el);
+        });
+    }
+
+    function openPop(x) {
+        submitted = false;
+        document.getElementById('modal-content-view').style.display = 'block';
+        document.getElementById('success-view').style.display = 'none';
+        document.getElementById('g-form').reset();
+        
+        // 自動帶入報名資訊到 Google Form 隱藏欄位
+        document.getElementById('entry-session').value = x.title + " " + x.start + " " + x.time;
+        
+        document.getElementById('m-title').innerText = x.title;
+        document.getElementById('m-time-text').innerText = x.start + " " + x.time;
+        document.getElementById('m-desc').innerHTML = x.desc ? x.desc.replace(/(https?:\/\/[^\s]+)/g, url => `<a href="${url}" target="_blank" class="ev-link">${url}</a>`) : "";
+        document.getElementById('m-img').src = x.img;
+        
+        const neon = getVibrantNeon(x.color);
+        document.getElementById('m-tag-container').innerHTML = `<span class="ev-tag" style="background: ${neon}">${x.tag}</span>`;
+        document.getElementById('ev-btn-bg').style.background = neon;
+
+        const addrLink = document.getElementById('m-address-link');
+        const addrBox = document.getElementById('m-addr-box');
+        if (x.addr) {
+            addrBox.style.display = 'block';
+            addrLink.innerText = x.addr;
+            addrLink.href = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(x.addr);
+        } else addrBox.style.display = 'none';
+
+        document.getElementById('infoModal').classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+        document.getElementById('infoModal').classList.remove('active');
+        document.body.style.overflow = 'auto';
+    }
+
+    const btnMain = document.getElementById('ev-main-btn');
+    btnMain.addEventListener('mousemove', e => {
+        const rect = btnMain.getBoundingClientRect();
+        btnMain.style.setProperty('--x', `${e.clientX - rect.left}px`);
+        btnMain.style.setProperty('--y', `${e.clientY - rect.top}px`);
+    });
+
+    fetchData();
+    </script>
+</div>
