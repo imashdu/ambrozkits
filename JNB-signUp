@@ -1,3 +1,20 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>禪奈普市精選活動</title>
+    <style>
+        /* 補上全域背景色，讓頁面在獨立開啟時更美觀 */
+        body {
+            background-color: #f5f5f7;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+
 <div id="event-list-root" class="ev-scoped-wrapper">
     <style>
         /* 基礎樣式 */
@@ -9,7 +26,7 @@
 
         .ev-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
         .ev-header h2 { font-size: 26px !important; font-weight: 700 !important; margin: 0 !important; border:none !important;}
-        .ev-badge { background: #f5f5f7; color: #86868b; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; }
+        .ev-badge { background: #e8e8ed; color: #86868b; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; }
 
         .ev-list-card {
             background: #ffffff; border-radius: 20px; padding: 18px; margin-bottom: 16px;
@@ -140,7 +157,6 @@
 
     <script>
     var submitted = false;
-    // 💡 網址已改為 output=tsv
     const TSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS5d534cAg4XNOPBsCcxJXIOZkxMIaj1eOVpCqPzig8YElS17savkXKnfL_TKqZ0SPUO4Q7FiclstsW/pub?gid=1584858931&single=true&output=tsv';
 
     function showSuccess() {
@@ -156,7 +172,6 @@
         return `linear-gradient(45deg, ${c1} 0%, ${hex} 45%, ${c3} 100%)`;
     }
 
-    // 🧠 TSV 專用解析函數 (已修復欄位對應)
     function parseTSV(str) {
         const lines = str.split(/\r?\n/);
         if (lines.length <= 1) return [];
@@ -214,9 +229,7 @@
         document.getElementById('success-view').style.display = 'none';
         document.getElementById('g-form').reset();
         
-        // 自動帶入報名資訊到 Google Form 隱藏欄位
         document.getElementById('entry-session').value = x.title + " " + x.start + " " + x.time;
-        
         document.getElementById('m-title').innerText = x.title;
         document.getElementById('m-time-text').innerText = x.start + " " + x.time;
         document.getElementById('m-desc').innerHTML = x.desc ? x.desc.replace(/(https?:\/\/[^\s]+)/g, url => `<a href="${url}" target="_blank" class="ev-link">${url}</a>`) : "";
@@ -253,3 +266,6 @@
     fetchData();
     </script>
 </div>
+
+</body>
+</html>
