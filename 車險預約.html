@@ -13,7 +13,7 @@
             --text-sub: #7F8C8D;
         }
 
-        body { background: var(--bg-color); margin: 0; padding: 20px; font-family: sans-serif; }
+        body { background: var(--bg-color); margin: 0; padding: 20px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
 
         .zen-scope { 
             max-width: 500px; margin: 0 auto; padding: 30px 25px; 
@@ -78,7 +78,7 @@
 
     <div id="dynamic-form-fields"></div>
     <button type="button" onclick="handleFormSubmit()" class="zen-submit-btn">產生訊息並開啟 LINE</button>
-    <p class="hint">🔒 此表單於瀏覽器本地運行，不儲存隱私數據</p>
+    <p class="hint">🔒 本地運行，安全不留存個資數據</p>
 </div>
 
 <script>
@@ -86,7 +86,6 @@
     const formContainer = document.getElementById('dynamic-form-fields');
     let formStructure = [];
 
-    // 解析 Markdown 標籤與敘述
     function parseLabelAndDesc(text) {
         let isRequired = false;
         let cleanText = text.trim();
@@ -97,7 +96,6 @@
         return { label: cleanText.trim(), desc: "", required: isRequired };
     }
 
-    // 初始化與渲染
     function initForm() {
         const lines = configText.split('\n').map(l => l.trim()).filter(l => l !== '');
         lines.forEach((line) => {
@@ -142,10 +140,10 @@
         formStructure.push({ name, label, type, required });
     }
 
-    // GitHub 專用的乾淨跳轉邏輯
     function handleFormSubmit() {
-        let message = "📝 【" + document.getElementById('form-title').innerText + "】\n";
-        message += "━━━━━━━━━━━━━━━\n";
+        // 移除分割線，改用換行
+        let message = "📝 【" + document.getElementById('form-title').innerText + "】\n\n";
+        
         for (let item of formStructure) {
             let value = "";
             if(item.type === 'text' || item.type === 'textarea') {
@@ -160,11 +158,11 @@
             if (item.required && !value) { alert("請完成必填項：" + item.label); return; }
             message += "● " + item.label + "：" + (value || "未填寫") + "\n";
         }
-        message += "━━━━━━━━━━━━━━━\n";
-        message += "💡 提醒：傳送後請記得上傳「行照照片」。";
         
-        // 🚀 GitHub Pages 專屬跳轉：不再需要 window.top，直接給它 openExternalBrowser
-        const lineUrl = "https://line.me/R/oaMessage/%40sdp6856n/?" + encodeURIComponent(message) + "&openExternalBrowser=1";
+        message += "\n💡 提醒：傳送後請記得上傳「行照照片」。";
+        
+        // 移除 openExternalBrowser，讓 LINE 內部處理跳轉
+        const lineUrl = "https://line.me/R/oaMessage/%40sdp6856n/?" + encodeURIComponent(message);
         
         window.location.href = lineUrl;
     }
