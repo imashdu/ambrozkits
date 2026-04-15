@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>汽機車險預約</title>
+    <style>
+        :root {
+            --primary-color: #5D6D7E;
+            --bg-color: #F8F9F9;
+            --card-bg: #FFFFFF;
+            --text-main: #2C3E50;
+            --text-sub: #7F8C8D;
+        }
+
+        body { background: var(--bg-color); margin: 0; padding: 20px; font-family: sans-serif; }
+
+        .zen-scope { 
+            max-width: 500px; margin: 0 auto; padding: 30px 25px; 
+            background: var(--card-bg); border-radius: 28px; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.05); color: var(--text-main); 
+            border: 1px solid #EAECEE; box-sizing: border-box;
+        }
+
+        .zen-header { margin-bottom: 30px; text-align: center; }
+        .zen-header h2 { font-size: 22px; font-weight: 700; color: var(--text-main); margin-bottom: 10px; }
+        .zen-header p { font-size: 13px; color: var(--text-sub); line-height: 1.6; }
+
+        .form-group { margin-bottom: 24px; }
+        .form-label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 8px; color: var(--primary-color); }
+        .required-star { color: #E74C3C; margin-left: 3px; }
+        .field-desc { display: block; font-size: 12px; color: var(--text-sub); margin-bottom: 12px; border-left: 2px solid #ddd; padding-left: 8px; }
+
+        .zen-input, .zen-textarea { 
+            width: 100%; padding: 14px 18px; border-radius: 16px; border: 1.5px solid #EBEDEF; 
+            background: #F4F6F7; font-size: 15px; box-sizing: border-box; outline: none; transition: 0.3s;
+        }
+        .zen-input:focus, .zen-textarea:focus { border-color: var(--primary-color); background: #fff; }
+        
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .option-item { 
+            display: flex; align-items: center; padding: 14px; background: #F4F6F7; 
+            border-radius: 16px; cursor: pointer; font-size: 14px; border: 1.5px solid transparent; 
+        }
+        .option-item input { margin-right: 12px; width: 18px; height: 18px; accent-color: var(--primary-color); }
+        .option-item:has(input:checked) { background: #fff; border-color: var(--primary-color); font-weight: 600; }
+
+        .zen-submit-btn { 
+            width: 100%; padding: 18px; border: none; border-radius: 20px; 
+            background: var(--primary-color); color: white; font-size: 16px; font-weight: 700; 
+            cursor: pointer; margin-top: 15px; box-shadow: 0 8px 20px rgba(93, 109, 126, 0.2); 
+        }
+        .zen-submit-btn:active { transform: scale(0.98); }
+        .hint { font-size: 11px; color: #bbb; text-align: center; margin-top: 20px; }
+
+        @media (max-width: 480px) { .options-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+<div class="zen-scope">
+    <div class="zen-header">
+        <h2 id="form-title">讀取中...</h2>
+        <p id="form-desc"></p>
+    </div>
+
+    <script id="form-definition" type="text/template">
+        # 標題：汽機車綜合責任險預約單
+        # 描述：填寫後點擊送出，將開啟 LINE 傳送訊息。傳送後請記得「手動上傳行照照片」以便核保。
+
+        * [] 車主姓名
+        * [] 手機號碼 (( 收取電子保單及保戶服務 ))
+        * [[]] 通訊地址 (( 僅供保單寄送使用 ))
+        * -() 服務類型:你幫我配,跟上次一樣,常規需求,我自己挑
+        -[] 附加保障 (( 可複選 )):強制險,駕駛人傷害險,第三責任險,超額責任險,道路救援,刑事訴訟律師補助,車體險
+        [[]] 備註 (( 如有特殊需求請告知 ))
+    </script>
+
+    <div id="dynamic-form-fields"></div>
+    <button type="button" onclick="handleFormSubmit()" class="zen-submit-btn">產生訊息並開啟 LINE</button>
+    <p class="hint">🔒 此表單於瀏覽器本地運行，不儲存隱私數據</p>
+</div>
+
+<script>
+    const configText = document.getElementById('form-definition').textContent.trim();
+    const formContainer = document.getElementById('dynamic-form-fields');
+    let formStructure = [];
+
+    // 解析 Markdown 標籤與敘述
+    function parseLabelAndDesc(text) {
+        let isRequired = false;
+        let cleanText = text.trim();
+        if (cleanText.startsWith('*')) { isRequired = true; cleanText = cleanText.substring(1).trim(); }
+        cleanText = cleanText.replace(/^-?\(\)/, '').replace(/^-?\[\]/, '').trim();
+        const match = cleanText.match(/(.+?)\(\((.+?)\)\)/);
+        if (match) return { label: match[1].trim(), desc: match[2].trim(), required: isRequired };
+        return { label: cleanText.trim(), desc: "", required: isRequired };
+    }
+
+    // 初始化與渲染
+    function initForm() {
+        const lines = configText.split('\n').map(l => l.trim()).filter(l => l !== '');
+        lines.forEach((line) => {
+            if(line.startsWith('# 標題：')) {
+                document.getElementById('form-title').innerText = line.replace('# 標題：', '');
+            } else if(line.startsWith('# 描述：')) {
+                document.getElementById('form-desc').innerText = line.replace('# 描述：', '');
+            } else if(line.includes('[[]]')) {
+                createInput(line, 'textarea');
+            } else if(line.includes('[]') && !line.includes('-[]')) {
+                createInput(line, 'text');
+            } else if(line.includes('-()')) {
+                createOptions(line, 'radio');
+            } else if(line.includes('-[]')) {
+                createOptions(line, 'checkbox');
+            }
+        });
+    }
+
+    function createInput(rawContent, type) {
+        const { label, desc, required } = parseLabelAndDesc(rawContent.replace('[[]]', '').replace('[]', ''));
+        const id = 'field_' + formStructure.length;
+        let html = `<div class="form-group"><label class="form-label">${label}${required ? '<span class="required-star">*</span>' : ''}</label>`;
+        if(desc) html += `<span class="field-desc">${desc}</span>`;
+        html += type === 'text' ? `<input type="text" id="${id}" class="zen-input" placeholder="請填寫...">` : `<textarea id="${id}" class="zen-textarea" rows="2" placeholder="請詳細填寫..."></textarea>`;
+        formContainer.innerHTML += html + `</div>`;
+        formStructure.push({ id, label, type, required });
+    }
+
+    function createOptions(rawContent, type) {
+        const parts = rawContent.split(':');
+        const { label, desc, required } = parseLabelAndDesc(parts[0]);
+        const options = (parts[1] || "").split(',').map(o => o.trim()).filter(o => o !== "");
+        const name = 'group_' + formStructure.length;
+        let html = `<div class="form-group"><label class="form-label">${label}${required ? '<span class="required-star">*</span>' : ''}</label>`;
+        if(desc) html += `<span class="field-desc">${desc}</span>`;
+        html += `<div class="options-grid">`;
+        options.forEach(opt => {
+            html += `<label class="option-item"><input type="${type}" name="${name}" value="${opt}"><span>${opt}</span></label>`;
+        });
+        formContainer.innerHTML += html + `</div></div>`;
+        formStructure.push({ name, label, type, required });
+    }
+
+    // GitHub 專用的乾淨跳轉邏輯
+    function handleFormSubmit() {
+        let message = "📝 【" + document.getElementById('form-title').innerText + "】\n";
+        message += "━━━━━━━━━━━━━━━\n";
+        for (let item of formStructure) {
+            let value = "";
+            if(item.type === 'text' || item.type === 'textarea') {
+                value = document.getElementById(item.id).value.trim();
+            } else if(item.type === 'radio') {
+                const selected = document.querySelector(`input[name="${item.name}"]:checked`);
+                value = selected ? selected.value : "";
+            } else if(item.type === 'checkbox') {
+                const selected = Array.from(document.querySelectorAll(`input[name="${item.name}"]:checked`)).map(el => el.value);
+                value = selected.length > 0 ? selected.join('、') : "";
+            }
+            if (item.required && !value) { alert("請完成必填項：" + item.label); return; }
+            message += "● " + item.label + "：" + (value || "未填寫") + "\n";
+        }
+        message += "━━━━━━━━━━━━━━━\n";
+        message += "💡 提醒：傳送後請記得上傳「行照照片」。";
+        
+        // 🚀 GitHub Pages 專屬跳轉：不再需要 window.top，直接給它 openExternalBrowser
+        const lineUrl = "https://line.me/R/oaMessage/%40sdp6856n/?" + encodeURIComponent(message) + "&openExternalBrowser=1";
+        
+        window.location.href = lineUrl;
+    }
+    
+    initForm();
+</script>
+
+</body>
+</html>
